@@ -27,19 +27,19 @@ public class FileTo {
 
             br = new BufferedReader(new FileReader(filePath));
             String line = br.readLine();
-            int rawController = 0;
+            int rowController = 1;
 
             while (null != line) {
 
                 String[] fields = line.split(SEPARATOR);
                 // fields = removeTrailingQuotes(fields);
                 fields[0] = fields[0].replaceAll("@", "");
-                for (int columnController = 0; columnController < fields.length; columnController++) {
-                    matrizTripletas.setCelda(rawController, columnController,
-                            Double.parseDouble(fields[columnController]));
+                for (int columnController = 1; columnController <= fields.length; columnController++) {
+                    matrizTripletas.setCelda(rowController, columnController,
+                            Double.parseDouble(fields[columnController - 1]));
 
                 }
-
+                rowController++;
                 line = br.readLine();
             }
             return matrizTripletas;
