@@ -1,7 +1,5 @@
 package domain;
 
-import java.util.PriorityQueue;
-
 public class Grafo {
 
     MatrizTripletas matrizTripletas;
@@ -18,41 +16,7 @@ public class Grafo {
         this.matrizTripletas = matrizTripletas;
     }
 
-    public int dijkistra(int inicio, int fin) {
-
-        int maxvertices = matrizTripletas.getConfiguracion().getF();
-
-        int[] distancia = new int[maxvertices];
-        int[] padre = new int[maxvertices];
-        boolean[] visto = new boolean[maxvertices];
-        for (int i = 0; i < maxvertices; i++) {
-            distancia[i] = 1200000000;
-            padre[i] = -1;
-            visto[i] = false;
-        }
-        distancia[inicio] = 0;
-        PriorityQueue<Integer> pila = new PriorityQueue<>();
-        pila.add(distancia[inicio]);
-        while (!pila.isEmpty()) {
-            int u = pila.poll();
-            visto[u] = true;
-            for (int i = 0; i < maxvertices; i++) {
-                double actualValue = matrizTripletas.getValorEn(u, i);
-                if (actualValue != 0) {
-                    // aqui es donde se debe tratar de editar para que nos incluya el parametro gas
-                    // que es un arreglo de strings
-                    if (distancia[i] > distancia[u] + actualValue) {
-                        distancia[i] = distancia[u] + (int) actualValue;
-                        padre[i] = u;
-                        pila.add(i);
-                    }
-                }
-            }
-        }
-        return distancia[fin];
-    }
-
-    public int dijkstra2(int src, int fin) {
+    public int dijkstra(int src, int fin) {
 
         int V = matrizTripletas.getConfiguracion().getF();
         int[] dist = new int[V];
