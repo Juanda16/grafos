@@ -23,7 +23,7 @@ public class FileTo {
 
         try {
 
-            MatrizTripletas matrizTripletas = new MatrizTripletas(6, 6);
+            MatrizTripletas matrizTripletas = new MatrizTripletas(200, 200);
 
             br = new BufferedReader(new FileReader(filePath));
             String line = br.readLine();
@@ -37,7 +37,6 @@ public class FileTo {
                 for (int columnController = 1; columnController <= fields.length; columnController++) {
                     matrizTripletas.setCelda(rowController, columnController,
                             Double.parseDouble(fields[columnController - 1]));
-
                 }
                 rowController++;
                 line = br.readLine();

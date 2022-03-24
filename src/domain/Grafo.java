@@ -19,8 +19,6 @@ public class Grafo {
     }
 
     public int dijkstra(int src, int fin) {
-        src--;
-        fin--;
         int V = matrizTripletas.getConfiguracion().getF();
         int[] dist = new int[V];
         // dist[i] guarda la distancia mas corta desde src hasta el vertice i
@@ -122,7 +120,8 @@ public class Grafo {
                 if(!visitados[j-1]){
                     costo = (int) matrizTripletas.getValorEn(w, j);
                     costo = costo == 0 ? Integer.MAX_VALUE : costo;
-                    paso = costo == Integer.MAX_VALUE ? costo : costoMinimo[w-1] + costo;
+                    int costoW = costoMinimo[w-1];
+                    paso = costo == Integer.MAX_VALUE || costoW == Integer.MAX_VALUE ? Integer.MAX_VALUE : costoW + costo;
                     if(paso < costoMinimo[j-1]){
                         costoMinimo[j-1] = paso;
                         ruta[j] = w;
@@ -137,6 +136,11 @@ public class Grafo {
 
     public void mejorCamino(int src, int fin){
         int[] ruta = dijkstraModificado(src, fin);
+        if(ruta[0] == Integer.MAX_VALUE){
+            System.out.printf("No hay ninguna ruta posible para ir de %d a %d:\n",src, fin);
+            return;
+        }
+        
         int paso, meta = fin;
         Stack<Integer> pilaRuta = new Stack<>();
         paso = ruta[meta];
