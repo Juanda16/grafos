@@ -23,7 +23,7 @@ public class FileTo {
 
         try {
 
-            MatrizTripletas matrizTripletas = new MatrizTripletas(9, 9);
+            MatrizTripletas matrizTripletas = new MatrizTripletas(6, 6);
 
             br = new BufferedReader(new FileReader(filePath));
             String line = br.readLine();

@@ -1,5 +1,7 @@
 package domain;
 
+import java.util.Stack;
+
 public class Grafo {
 
     MatrizTripletas matrizTripletas;
@@ -86,45 +88,69 @@ public class Grafo {
      * @param src
      * @return ruta
      */
-    public int[] dijkstraModificado(int src){
-        //src--;
+    public int[] dijkstraModificado(int src, int fin){        
         int n = matrizTripletas.getConfiguracion().getF();
-        int[] ruta = new int[n];
+        int[] ruta = new int[n+1];
         int[] costoMinimo = new int[n];
         boolean[] visitados = new boolean[n]; 
-        int i, j, w, paso;
+        int i, j, w, paso, costo;
 
-        for(i = 0; i < n; i++){
-            costoMinimo[i] = (int) matrizTripletas.getValorEn(src, i);
-            visitados[i] = false;
-            ruta[i] = i + 1;
+        for(i = 1; i <= n; i++){
+            costo = (int) matrizTripletas.getValorEn(src, i);
+            costoMinimo[i-1] = costo == 0 ? Integer.MAX_VALUE : costo;
+            visitados[i-1] = false;
+            ruta[i] = i;
         }
-        visitados[src] = true;
-        i = 0;
-        while(i < n-2){ // ¿n-1 o n-2?
-            j = 0;
-            while(visitados[j]){
+        costoMinimo[src-1] = 0;
+        System.out.println("vértice: " + src);
+        visitados[src-1] = true;
+        i = 1;
+        while(i < n-1){ // ¿n-1 o n-2?
+            j = 1;
+            while(visitados[j-1]){
                 j++;
             }
             w = j;
-            for(j = w + 1; j < n; j++){
-                if(!visitados[j] && costoMinimo[j] < costoMinimo[w]){
+            for(j = w + 1; j <= n; j++){
+                if(!visitados[j-1] && costoMinimo[j-1] < costoMinimo[w-1]){
                     w = j;
                 }
             }
-            visitados[w] = true;
+            visitados[w-1] = true;
             i++;
-            for(j = 1; j < n; j++){
-                if(!visitados[j]){
-                    paso = costoMinimo[w] + (int) matrizTripletas.getValorEn(w, j);
-                    if(paso < costoMinimo[j]){
-                        costoMinimo[j] = paso;
-                        ruta[j] = w + 1;
+            for(j = 1; j <= n; j++){
+                if(!visitados[j-1]){
+                    costo = (int) matrizTripletas.getValorEn(w, j);
+                    costo = costo == 0 ? Integer.MAX_VALUE : costo;
+                    paso = costo == Integer.MAX_VALUE ? costo : costoMinimo[w-1] + costo;
+                    if(paso < costoMinimo[j-1]){
+                        costoMinimo[j-1] = paso;
+                        ruta[j] = w;
                     }
                 }
             }
 
         }
+        ruta[0] = costoMinimo[fin-1];
         return ruta;
+    }
+
+    public void mejorCamino(int src, int fin){
+        int[] ruta = dijkstraModificado(src, fin);
+        int paso, meta = fin;
+        Stack<Integer> pilaRuta = new Stack<>();
+        paso = ruta[meta];
+        while(paso != meta){
+            pilaRuta.add(meta);
+            meta = paso;
+            paso = ruta[meta];
+        }
+        pilaRuta.add(meta);
+        pilaRuta.add(src);
+        //System.out.println("La ruta para ir de " + src + " a " + fin + " es");
+        System.out.printf("La mejor ruta para ir de %d a %d, con un coste de %d es:\n",src, fin, ruta[0]);
+        while(!pilaRuta.empty()){
+            System.out.println(pilaRuta.pop());
+        }
     }
 }
