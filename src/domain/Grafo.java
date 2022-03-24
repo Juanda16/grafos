@@ -1,8 +1,11 @@
 package domain;
 
+import java.util.ArrayList;
+
 public class Grafo {
 
     MatrizTripletas matrizTripletas;
+    public int contador=1;
 
     public Grafo(MatrizTripletas matrizTripletas) {
         this.matrizTripletas = matrizTripletas;
@@ -79,16 +82,28 @@ public class Grafo {
     }
 
 
-    public void dfs(int verticeInicio) throws Exception {
-        if (verticeInicio >= matrizTripletas.tripletas.length) {
-            throw new Exception("el vertice no existe");
+    public ArrayList<Integer> hayAislados() throws Exception{
+        ArrayList<Integer> listaVertices = new ArrayList<Integer>();
+
+        for (int i = 1; i < matrizTripletas.getConfiguracion().getF(); i++) {
+            contador=1;
+            if (dfs(i)==1) {
+                listaVertices.add(i);
+                //System.out.println(dfs(i));
+            } 
         }
-        int[] visitados = new int[matrizTripletas.tripletas.length];
-        DFSRecursivo(visitados, verticeInicio);
+        return (listaVertices);
+        
     }
 
+    public int dfs(int verticeInicio) throws Exception {
+        if (verticeInicio >= matrizTripletas.getConfiguracion().getF()) {
+            throw new Exception("el vertice no existe");
+        }
+        int[] visitados = new int[matrizTripletas.getConfiguracion().getF()];
+        return DFSRecursivo(visitados, verticeInicio);
+    }
     /**
-     * Ejercicio 4 del texto guia
      *
      * @throws java.lang.Exception
      */
@@ -96,18 +111,22 @@ public class Grafo {
         this.dfs(0);
     }
 
-    private void DFSRecursivo(int[] visitados, int v) {
+    private int DFSRecursivo(int[] visitados, int v) {
+        int contadorTemp =0;
         visitados[v] = 1;
-        System.out.println("Visitando " + v);
-
-        for (int w = 0; w < matrizTripletas.tripletas.length; w++) {
-            if (matrizTripletas[v][w] == 1) {
+        //System.out.println("Visitando " + v);
+        for (int w = 0; w < matrizTripletas.getConfiguracion().getF(); w++) {
+            if (matrizTripletas.getValorEn(v,w) == 1) {
                 if (visitados[w] == 0) {
+                    contador++;
+                    contadorTemp= contador;
                     DFSRecursivo(visitados, w);
                 }
-            }
 
+            }
+            
         }
+        return contador;
     }
 
 }
