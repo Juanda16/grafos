@@ -77,4 +77,38 @@ public class Grafo {
 
         return min_index;
     }
+
+
+    public void dfs(int verticeInicio) throws Exception {
+        if (verticeInicio >= matrizTripletas.tripletas.length) {
+            throw new Exception("el vertice no existe");
+        }
+        int[] visitados = new int[matrizTripletas.tripletas.length];
+        DFSRecursivo(visitados, verticeInicio);
+    }
+
+    /**
+     * Ejercicio 4 del texto guia
+     *
+     * @throws java.lang.Exception
+     */
+    public void dfs() throws Exception {
+        this.dfs(0);
+    }
+
+    private void DFSRecursivo(int[] visitados, int v) {
+        visitados[v] = 1;
+        System.out.println("Visitando " + v);
+
+        for (int w = 0; w < matrizTripletas.tripletas.length; w++) {
+            if (matrizTripletas[v][w] == 1) {
+                if (visitados[w] == 0) {
+                    DFSRecursivo(visitados, w);
+                }
+            }
+
+        }
+    }
+
 }
+
