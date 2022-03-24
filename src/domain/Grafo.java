@@ -61,9 +61,14 @@ public class Grafo {
         return dist[fin] == Integer.MAX_VALUE ? -1 : dist[fin];
     }
 
-    // Funcion utilitaria para encontrar el vertice con la distancia minima,
-    // a partir del conjunto de los vertices todavia no incluidos en el
-    // camino mas corto
+    /**Funcion utilitaria para encontrar el vertice con la distancia minima,
+     * a partir del conjunto de los vertices todavia no incluidos en el
+     * camino mas corto
+     * 
+     * @param dist
+     * @param verticeYaProcesado
+     * @return min_index
+     */
     private int minDistance(int[] dist, boolean[] verticeYaProcesado) {
         // Initialize min value
         int min = Integer.MAX_VALUE;
@@ -84,11 +89,11 @@ public class Grafo {
      * desde el vértice src.
      * 
      * @param src
-     * @return ruta
+     * @return ruta (la posición 0 es el costo de toda la ruta)
      */
     public int[] dijkstraModificado(int src, int fin){        
         int n = matrizTripletas.getConfiguracion().getF();
-        int[] ruta = new int[n+1];
+        int[] ruta = new int[n+1]; // se crea con n+1 posiciones para guardar el costo de la ruta en la posición 0
         int[] costoMinimo = new int[n];
         boolean[] visitados = new boolean[n]; 
         int i, j, w, paso, costo;
@@ -103,7 +108,7 @@ public class Grafo {
         System.out.println("vértice: " + src);
         visitados[src-1] = true;
         i = 1;
-        while(i < n-1){ // ¿n-1 o n-2?
+        while(i < n-1){ 
             j = 1;
             while(visitados[j-1]){
                 j++;
@@ -134,6 +139,11 @@ public class Grafo {
         return ruta;
     }
 
+    /** Muestra el mejor camino posible entre los nodos src y fin. También menciona el costo del camino.
+     * 
+     * @param src
+     * @param fin
+     */
     public void mejorCamino(int src, int fin){
         int[] ruta = dijkstraModificado(src, fin);
         if(ruta[0] == Integer.MAX_VALUE){
