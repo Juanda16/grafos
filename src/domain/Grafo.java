@@ -17,7 +17,8 @@ public class Grafo {
     }
 
     public int dijkstra(int src, int fin) {
-
+        src--;
+        fin--;
         int V = matrizTripletas.getConfiguracion().getF();
         int[] dist = new int[V];
         // dist[i] guarda la distancia mas corta desde src hasta el vertice i
@@ -76,5 +77,54 @@ public class Grafo {
             }
 
         return min_index;
+    }
+
+
+    /** Devuelve un vector con la ruta para ir a cada uno de los vértices
+     * desde el vértice src.
+     * 
+     * @param src
+     * @return ruta
+     */
+    public int[] dijkstraModificado(int src){
+        //src--;
+        int n = matrizTripletas.getConfiguracion().getF();
+        int[] ruta = new int[n];
+        int[] costoMinimo = new int[n];
+        boolean[] visitados = new boolean[n]; 
+        int i, j, w, paso;
+
+        for(i = 0; i < n; i++){
+            costoMinimo[i] = (int) matrizTripletas.getValorEn(src, i);
+            visitados[i] = false;
+            ruta[i] = i + 1;
+        }
+        visitados[src] = true;
+        i = 0;
+        while(i < n-2){ // ¿n-1 o n-2?
+            j = 0;
+            while(visitados[j]){
+                j++;
+            }
+            w = j;
+            for(j = w + 1; j < n; j++){
+                if(!visitados[j] && costoMinimo[j] < costoMinimo[w]){
+                    w = j;
+                }
+            }
+            visitados[w] = true;
+            i++;
+            for(j = 1; j < n; j++){
+                if(!visitados[j]){
+                    paso = costoMinimo[w] + (int) matrizTripletas.getValorEn(w, j);
+                    if(paso < costoMinimo[j]){
+                        costoMinimo[j] = paso;
+                        ruta[j] = w + 1;
+                    }
+                }
+            }
+
+        }
+        return ruta;
     }
 }
