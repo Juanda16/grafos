@@ -1,4 +1,4 @@
-package domain;
+package domain.model;
 
 /*
  * Copyright 2019 Carlos Alejandro Escobar Marulanda ealejandro101@gmail.com

@@ -1,4 +1,4 @@
-package domain;
+package domain.model;
 
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableColumnModel;
@@ -439,27 +439,4 @@ public class MatrizTripletas {
         }
         return traspuesta;
     }
-    
-    /*
-    public MatrizTripletas matrizSin(int fila, int columna) throws Exception{
-        int c = 1, d = 1;
-        Tripleta configuracion = getConfiguracion();
-        int filas = configuracion.getF();
-        int columnas = configuracion.getC();
-        MatrizTripletas matrizSin = new MatrizTripletas(filas - 1, columnas - 1);
-        for(int i = 1; i<=filas; i++){
-            for(int j = 1; j<=columnas; j++){
-                while( i != fila && j != columna && getValorEn(i, j) != 0){
-                    if(d == filas){
-                        c++;
-                        d = 1;
-                    }
-                    System.out.printf("c: %d, d: %d \n", c,d);
-                    System.out.println(matrizSin);
-                    matrizSin.setCelda(c, d, getValorEn(i, j));
-                    d++;
-                }
-            }
-        }
-    }*/
 }

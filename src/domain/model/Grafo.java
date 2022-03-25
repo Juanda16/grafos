@@ -1,4 +1,4 @@
-package domain;
+package domain.model;
 
 import java.util.Stack;
 
@@ -58,7 +58,7 @@ public class Grafo {
         }
 
         // se imprime el arreglo con las distancias
-        return dist[fin] == Integer.MAX_VALUE ? -1 : dist[fin];
+        return dist[fin-1] == Integer.MAX_VALUE ? -1 : dist[fin-1];
     }
 
     /**Funcion utilitaria para encontrar el vertice con la distancia minima,
@@ -105,7 +105,7 @@ public class Grafo {
             ruta[i] = i;
         }
         costoMinimo[src-1] = 0;
-        System.out.println("vértice: " + src);
+        //System.out.println("vértice: " + src);
         visitados[src-1] = true;
         i = 1;
         while(i < n-1){ 

@@ -1,9 +1,7 @@
 package domain.util;
 
 import java.io.*;
-import java.util.Stack;
-
-import domain.MatrizTripletas;
+import domain.model.MatrizTripletas;
 
 public class FileTo {
 
