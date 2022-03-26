@@ -10,7 +10,7 @@ public class MainController {
                 break;
             case '2': BestTimeController.index(adyacencia);
                  break;
-             case '3': IsolatedStationsController.index(adyacencia);
+             case '3': DisconnectedStationsController.index(adyacencia);
                  break;
             case '4': StationGroupsController.index(adyacencia);
                 break;

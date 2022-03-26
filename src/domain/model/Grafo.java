@@ -1,10 +1,11 @@
 package domain.model;
 
+import java.util.ArrayList;
 import java.util.Stack;
 
 public class Grafo {
-
     MatrizTripletas matrizTripletas;
+    public int contador = 1;
 
     public Grafo(MatrizTripletas matrizTripletas) {
         this.matrizTripletas = matrizTripletas;
@@ -58,10 +59,11 @@ public class Grafo {
         }
 
         // se imprime el arreglo con las distancias
-        return dist[fin-1] == Integer.MAX_VALUE ? -1 : dist[fin-1];
+        return dist[fin - 1] == Integer.MAX_VALUE ? -1 : dist[fin - 1];
     }
 
-    /**Funcion utilitaria para encontrar el vertice con la distancia minima,
+    /**
+     * Funcion utilitaria para encontrar el vertice con la distancia minima,
      * a partir del conjunto de los vertices todavia no incluidos en el
      * camino mas corto
      * 
@@ -84,87 +86,136 @@ public class Grafo {
         return min_index;
     }
 
-
-    /** Devuelve un vector con la ruta para ir a cada uno de los vértices
+    /**
+     * Devuelve un vector con la ruta para ir a cada uno de los vértices
      * desde el vértice src.
      * 
      * @param src
      * @return ruta (la posición 0 es el costo de toda la ruta)
      */
-    public int[] dijkstraModificado(int src, int fin){        
+    public int[] dijkstraModificado(int src, int fin) {
         int n = matrizTripletas.getConfiguracion().getF();
-        int[] ruta = new int[n+1]; // se crea con n+1 posiciones para guardar el costo de la ruta en la posición 0
+        int[] ruta = new int[n + 1]; // se crea con n+1 posiciones para guardar el costo de la ruta en la posición 0
         int[] costoMinimo = new int[n];
-        boolean[] visitados = new boolean[n]; 
+        boolean[] visitados = new boolean[n];
         int i, j, w, paso, costo;
 
-        for(i = 1; i <= n; i++){
+        for (i = 1; i <= n; i++) {
             costo = (int) matrizTripletas.getValorEn(src, i);
-            costoMinimo[i-1] = costo == 0 ? Integer.MAX_VALUE : costo;
-            visitados[i-1] = false;
+            costoMinimo[i - 1] = costo == 0 ? Integer.MAX_VALUE : costo;
+            visitados[i - 1] = false;
             ruta[i] = i;
         }
-        costoMinimo[src-1] = 0;
-        //System.out.println("vértice: " + src);
-        visitados[src-1] = true;
+        costoMinimo[src - 1] = 0;
+        // System.out.println("vértice: " + src);
+        visitados[src - 1] = true;
         i = 1;
-        while(i < n-1){ 
+        while (i < n - 1) {
             j = 1;
-            while(visitados[j-1]){
+            while (visitados[j - 1]) {
                 j++;
             }
             w = j;
-            for(j = w + 1; j <= n; j++){
-                if(!visitados[j-1] && costoMinimo[j-1] < costoMinimo[w-1]){
+            for (j = w + 1; j <= n; j++) {
+                if (!visitados[j - 1] && costoMinimo[j - 1] < costoMinimo[w - 1]) {
                     w = j;
                 }
             }
-            visitados[w-1] = true;
+            visitados[w - 1] = true;
             i++;
-            for(j = 1; j <= n; j++){
-                if(!visitados[j-1]){
+            for (j = 1; j <= n; j++) {
+                if (!visitados[j - 1]) {
                     costo = (int) matrizTripletas.getValorEn(w, j);
                     costo = costo == 0 ? Integer.MAX_VALUE : costo;
-                    int costoW = costoMinimo[w-1];
-                    paso = costo == Integer.MAX_VALUE || costoW == Integer.MAX_VALUE ? Integer.MAX_VALUE : costoW + costo;
-                    if(paso < costoMinimo[j-1]){
-                        costoMinimo[j-1] = paso;
+                    int costoW = costoMinimo[w - 1];
+                    paso = costo == Integer.MAX_VALUE || costoW == Integer.MAX_VALUE ? Integer.MAX_VALUE
+                            : costoW + costo;
+                    if (paso < costoMinimo[j - 1]) {
+                        costoMinimo[j - 1] = paso;
                         ruta[j] = w;
                     }
                 }
             }
 
         }
-        ruta[0] = costoMinimo[fin-1];
+        ruta[0] = costoMinimo[fin - 1];
         return ruta;
     }
 
-    /** Muestra el mejor camino posible entre los nodos src y fin. También menciona el costo del camino.
+    /**
+     * Muestra el mejor camino posible entre los nodos src y fin. También menciona
+     * el costo del camino.
      * 
      * @param src
      * @param fin
      */
-    public void mejorCamino(int src, int fin){
+    public void mejorCamino(int src, int fin) {
         int[] ruta = dijkstraModificado(src, fin);
-        if(ruta[0] == Integer.MAX_VALUE){
-            System.out.printf("No hay ninguna ruta posible para ir de %d a %d:\n",src, fin);
+        if (ruta[0] == Integer.MAX_VALUE) {
+            System.out.printf("No hay ninguna ruta posible para ir de %d a %d:\n", src, fin);
             return;
         }
-        
+
         int paso, meta = fin;
         Stack<Integer> pilaRuta = new Stack<>();
         paso = ruta[meta];
-        while(paso != meta){
+        while (paso != meta) {
             pilaRuta.add(meta);
             meta = paso;
             paso = ruta[meta];
         }
         pilaRuta.add(meta);
         pilaRuta.add(src);
-        //System.out.println("La ruta para ir de " + src + " a " + fin + " es");
-        System.out.printf("La mejor ruta para ir de %d a %d, con un coste de %d es:\n",src, fin, ruta[0]);
-        while(!pilaRuta.empty()){
+        // System.out.println("La ruta para ir de " + src + " a " + fin + " es");
+        System.out.printf("La mejor ruta para ir de %d a %d, con un coste de %d es:\n", src, fin, ruta[0]);
+        while (!pilaRuta.empty()) {
             System.out.println(pilaRuta.pop());
         }
+    }
+
+    public ArrayList<Integer> hayAislados() throws Exception {
+        ArrayList<Integer> listaVertices = new ArrayList<Integer>();
+
+        for (int i = 1; i < matrizTripletas.getConfiguracion().getF(); i++) {
+            contador = 1;
+            if (dfs(i) == 1) {
+                listaVertices.add(i);
+                // System.out.println(dfs(i));
+            }
+        }
+        return (listaVertices);
+
+    }
+
+    public int dfs(int verticeInicio) throws Exception {
+        if (verticeInicio >= matrizTripletas.getConfiguracion().getF()) {
+            throw new Exception("el vertice no existe");
+        }
+        int[] visitados = new int[matrizTripletas.getConfiguracion().getF()];
+        return DFSRecursivo(visitados, verticeInicio);
+    }
+
+    /**
+     *
+     * @throws java.lang.Exception
+     */
+    public void dfs() throws Exception {
+        this.dfs(0);
+    }
+
+    private int DFSRecursivo(int[] visitados, int v) {
+        int contadorTemp = 0;
+        visitados[v] = 1;
+        System.out.println("Visitando " + v);
+        for (int w = 0; w < matrizTripletas.getConfiguracion().getF(); w++) {
+            if (matrizTripletas.getValorEn(v, w) == 1) {
+                if (visitados[w] == 0) {
+                    contador++;
+                    contadorTemp = contador;
+                    DFSRecursivo(visitados, w);
+                }
+            }
+        }
+        return contador;
     }
 }
