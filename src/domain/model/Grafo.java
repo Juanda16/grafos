@@ -207,7 +207,7 @@ public class Grafo {
         int contadorTemp = 0;
         visitados[v] = 1;
         //System.out.println("Visitando " + v);
-        System.out.println(".");
+       
         for (int w = 0; w < matrizTripletas.getConfiguracion().getF(); w++) {
             if (matrizTripletas.getValorEn(v, w) != 0) {
                 if (visitados[w] == 0) {
