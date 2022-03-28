@@ -27,7 +27,7 @@ public class Grafo {
         boolean[] verticeYaProcesado = new boolean[V];
         // Este arreglo tiene true si el vertice i ya fue procesado
 
-        // Initialize all distances as INFINITE and stpSet[] as false
+        // inicializar todas las distancias como INFINITE y stpSet[] como false
         for (int i = 0; i < V; i++) {
             dist[i] = Integer.MAX_VALUE;
             verticeYaProcesado[i] = false;
@@ -46,7 +46,7 @@ public class Grafo {
             // Se marca como ya procesado
             verticeYaProcesado[u] = true;
 
-            // Update dist value of the adjacent vertices of the picked vertex.
+         // Actualiza el valor dist de los vértices adyacentes del vértice elegido.
             for (int v = 0; v < V; v++)
 
                 // Se actualiza la dist[v] solo si no esta en verticeYaProcesado, hay un

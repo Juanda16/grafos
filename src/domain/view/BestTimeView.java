@@ -15,19 +15,23 @@ public class BestTimeView {
             System.out.println(BestTimeConstants.SUBTITLE);
             String baseA = read.nextLine();
             if (baseA.equals("0"))
-                break; 
+                break;
             System.out.println(BestTimeConstants.NOTES);
             String baseB = read.nextLine();
             System.out.println(BestTimeConstants.RESULT);
             int baseAint = Integer.parseInt(baseA);
             int baseBint = Integer.parseInt(baseB);
             int time = adyacencia.dijkstra(baseAint, baseBint);
-            System.out.printf("El mejor tiempo entre %d y %d es %d\n", baseAint, baseBint, time);
+            if (time == -1) {
+                System.out.printf("no hay un camino posible \n");
+            } else {
+                System.out.printf("El mejor tiempo entre %d y %d es %d\n", baseAint, baseBint, time);
+            }
             do {
                 System.out.print(BestTimeConstants.QUESTION);
                 response = read.next().charAt(0);
                 read.nextLine();
             } while (response != 'y' && response != 'n');
-        } while (response == 'y');   
-    }    
+        } while (response == 'y');
+    }
 }
