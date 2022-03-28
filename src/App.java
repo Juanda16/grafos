@@ -5,7 +5,7 @@ import domain.view.Index;
 public class App {
     public static void main(String[] args) throws Exception {
 
-        Grafo grafo = new Grafo(FileTo.matrizTripletas("src/Matriz_de_tiempos_Prueba.csv"));
+        Grafo grafo = new Grafo(FileTo.matrizTripletas("src/matriz_ejemplo.csv"));
         //System.out.println(grafo.hayAislados().toString());
         Index.mainScreen(grafo);
     }
